@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>SYNAPSE — Link Your Knowledge</title>
+  <meta name="description" content="A trivia game where every answer connects. Wager, discover, chain your knowledge.">
+  <meta name="theme-color" content="#0a0a1a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ======================== SPLASH / HOME ======================== -->
+    <div id="screen-home" class="screen active">
+      <div class="home-bg-effects">
+        <div class="neuron-bg"></div>
+      </div>
+      <div class="home-content">
+        <div class="logo-container">
+          <div class="logo-icon">
+            <svg viewBox="0 0 64 64" class="synapse-logo">
+              <circle cx="32" cy="12" r="5" class="neuron-node n1"/>
+              <circle cx="12" cy="42" r="5" class="neuron-node n2"/>
+              <circle cx="52" cy="42" r="5" class="neuron-node n3"/>
+              <circle cx="32" cy="32" r="7" class="neuron-node n-center"/>
+              <line x1="32" y1="12" x2="32" y2="32" class="neuron-line"/>
+              <line x1="12" y1="42" x2="32" y2="32" class="neuron-line"/>
+              <line x1="52" y1="42" x2="32" y2="32" class="neuron-line"/>
+              <circle cx="32" cy="22" r="2" class="synapse-dot sd1"/>
+              <circle cx="22" cy="37" r="2" class="synapse-dot sd2"/>
+              <circle cx="42" cy="37" r="2" class="synapse-dot sd3"/>
+            </svg>
+          </div>
+          <h1 class="logo-text">SYNAPSE</h1>
+          <p class="logo-tagline">Link your knowledge</p>
+        </div>
+
+        <div class="home-streak" id="home-streak" style="display:none">
+          <span class="streak-fire">&#128293;</span>
+          <span class="streak-count" id="home-streak-count">0</span>
+          <span class="streak-label">day streak</span>
+        </div>
+
+        <div class="daily-banner" id="daily-banner">
+          <div class="daily-category-dot" id="daily-dot"></div>
+          <span class="daily-text">Today's Drop: <strong id="daily-category-name">Science</strong></span>
+          <span class="daily-number" id="daily-number">#1</span>
+        </div>
+
+        <div class="home-modes">
+          <button class="mode-btn mode-daily" data-mode="daily">
+            <div class="mode-icon">&#9733;</div>
+            <div class="mode-info">
+              <div class="mode-name">Daily Drop</div>
+              <div class="mode-desc">10 questions, one shot</div>
+            </div>
+            <div class="mode-arrow">&rarr;</div>
+          </button>
+          <button class="mode-btn mode-quickfire" data-mode="quickfire">
+            <div class="mode-icon">&#9889;</div>
+            <div class="mode-info">
+              <div class="mode-name">Quick Fire</div>
+              <div class="mode-desc">3 minutes, endless chain</div>
+            </div>
+            <div class="mode-arrow">&rarr;</div>
+          </button>
+          <button class="mode-btn mode-deepdive" data-mode="deepdive">
+            <div class="mode-icon">&#128300;</div>
+            <div class="mode-info">
+              <div class="mode-name">Deep Dive</div>
+              <div class="mode-desc">Pick a topic, no timer</div>
+            </div>
+            <div class="mode-arrow">&rarr;</div>
+          </button>
+          <button class="mode-btn mode-gauntlet" data-mode="gauntlet">
+            <div class="mode-icon">&#9876;</div>
+            <div class="mode-info">
+              <div class="mode-name">The Gauntlet</div>
+              <div class="mode-desc">One wrong and you're done</div>
+            </div>
+            <div class="mode-arrow">&rarr;</div>
+          </button>
+        </div>
+
+        <div class="home-footer">
+          <button class="footer-btn" id="btn-stats">&#128202; Stats</button>
+          <button class="footer-btn" id="btn-badges">&#127942; Badges</button>
+          <button class="footer-btn" id="btn-settings">&#9881; Settings</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== CATEGORY PICKER (Deep Dive) ======================== -->
+    <div id="screen-category" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="home">&larr;</button>
+        <h2>Choose Your Topic</h2>
+      </div>
+      <div class="category-grid" id="category-grid">
+        <button class="cat-card" data-category="science" style="--cat-color: #00e676">
+          <div class="cat-icon">&#129514;</div>
+          <div class="cat-name">Science & Nature</div>
+        </button>
+        <button class="cat-card" data-category="history" style="--cat-color: #ffd740">
+          <div class="cat-icon">&#127984;</div>
+          <div class="cat-name">History & World</div>
+        </button>
+        <button class="cat-card" data-category="arts" style="--cat-color: #ea80fc">
+          <div class="cat-icon">&#127912;</div>
+          <div class="cat-name">Arts & Entertainment</div>
+        </button>
+        <button class="cat-card" data-category="geography" style="--cat-color: #18ffff">
+          <div class="cat-icon">&#127758;</div>
+          <div class="cat-name">Geography & Culture</div>
+        </button>
+        <button class="cat-card" data-category="sports" style="--cat-color: #ff5252">
+          <div class="cat-icon">&#127941;</div>
+          <div class="cat-name">Sports & Competition</div>
+        </button>
+        <button class="cat-card" data-category="popculture" style="--cat-color: #ff80ab">
+          <div class="cat-icon">&#127911;</div>
+          <div class="cat-name">Pop Culture</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================== DIFFICULTY PICKER ======================== -->
+    <div id="screen-difficulty" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="home">&larr;</button>
+        <h2>Difficulty</h2>
+      </div>
+      <div class="difficulty-options">
+        <button class="diff-btn" data-difficulty="casual">
+          <div class="diff-label">Casual</div>
+          <div class="diff-desc">6 clues &bull; Easier questions &bull; Forgiving</div>
+        </button>
+        <button class="diff-btn selected" data-difficulty="standard">
+          <div class="diff-label">Standard</div>
+          <div class="diff-desc">5 clues &bull; Balanced &bull; The true experience</div>
+        </button>
+        <button class="diff-btn" data-difficulty="expert">
+          <div class="diff-label">Expert</div>
+          <div class="diff-desc">4 clues &bull; Hard questions &bull; High stakes</div>
+        </button>
+      </div>
+      <button class="primary-btn" id="btn-start-game">Begin</button>
+    </div>
+
+    <!-- ======================== GAME SCREEN ======================== -->
+    <div id="screen-game" class="screen">
+      <!-- Top bar -->
+      <div class="game-top-bar">
+        <div class="top-left">
+          <span class="game-mode-label" id="game-mode-label">Daily Drop</span>
+          <span class="question-counter" id="question-counter">1/10</span>
+        </div>
+        <div class="top-center">
+          <div class="timer-container" id="timer-container" style="display:none">
+            <div class="timer-bar" id="timer-bar"></div>
+            <span class="timer-text" id="timer-text">3:00</span>
+          </div>
+        </div>
+        <div class="top-right">
+          <div class="bank-display">
+            <span class="bank-label">Bank</span>
+            <span class="bank-value" id="bank-value">1000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chain visualization -->
+      <div class="chain-bar" id="chain-bar">
+        <div class="chain-nodes" id="chain-nodes"></div>
+        <div class="chain-multiplier" id="chain-multiplier">&#215;1.0</div>
+      </div>
+
+      <!-- Chain hint -->
+      <div class="chain-hint-container" id="chain-hint-container" style="display:none">
+        <span class="chain-link-icon">&#128279;</span>
+        <span class="chain-hint-text" id="chain-hint-text">Starting link</span>
+        <span class="chain-arrow">&rarr;</span>
+        <span class="chain-category" id="chain-category-label">History</span>
+      </div>
+
+      <!-- Wager phase -->
+      <div class="wager-container" id="wager-container" style="display:none">
+        <h3 class="wager-title">How confident are you?</h3>
+        <div class="wager-buttons">
+          <button class="wager-btn wager-safe" data-wager="safe">
+            <div class="wager-pct">10%</div>
+            <div class="wager-label">Safe</div>
+            <div class="wager-amount" id="wager-safe-amt">100</div>
+          </button>
+          <button class="wager-btn wager-bold" data-wager="bold">
+            <div class="wager-pct">50%</div>
+            <div class="wager-label">Bold</div>
+            <div class="wager-amount" id="wager-bold-amt">500</div>
+          </button>
+          <button class="wager-btn wager-allin" data-wager="allin">
+            <div class="wager-pct">100%</div>
+            <div class="wager-label">All In</div>
+            <div class="wager-amount" id="wager-allin-amt">1000</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Clue area -->
+      <div class="clue-area" id="clue-area" style="display:none">
+        <div class="clue-points-available" id="clue-points">
+          <span class="pts-number" id="pts-number">500</span>
+          <span class="pts-label">pts available</span>
+        </div>
+        <div class="clues-list" id="clues-list"></div>
+        <button class="next-clue-btn" id="btn-next-clue">
+          Drop Next Clue <span class="clue-cost" id="clue-cost">(-100 pts)</span>
+        </button>
+      </div>
+
+      <!-- Answer options -->
+      <div class="answer-area" id="answer-area" style="display:none">
+        <div class="answer-grid" id="answer-grid"></div>
+      </div>
+
+      <!-- Result overlay -->
+      <div class="result-overlay" id="result-overlay" style="display:none">
+        <div class="result-card" id="result-card">
+          <div class="result-icon" id="result-icon"></div>
+          <div class="result-answer" id="result-answer"></div>
+          <div class="result-points" id="result-points"></div>
+          <div class="result-breakdown" id="result-breakdown"></div>
+          <div class="result-chain-status" id="result-chain-status"></div>
+          <button class="primary-btn" id="btn-next-question">Next Question</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== RESULTS SCREEN ======================== -->
+    <div id="screen-results" class="screen">
+      <div class="results-content">
+        <h2 class="results-title" id="results-title">Daily Drop Complete!</h2>
+        <div class="results-score-big" id="results-score-big">4,250</div>
+        <div class="results-grade" id="results-grade">A</div>
+
+        <div class="results-stats-grid">
+          <div class="result-stat">
+            <div class="stat-value" id="stat-correct">8/10</div>
+            <div class="stat-label">Correct</div>
+          </div>
+          <div class="result-stat">
+            <div class="stat-value" id="stat-chain">7</div>
+            <div class="stat-label">Best Chain</div>
+          </div>
+          <div class="result-stat">
+            <div class="stat-value" id="stat-avg-clue">2.4</div>
+            <div class="stat-label">Avg Clue</div>
+          </div>
+          <div class="result-stat">
+            <div class="stat-value" id="stat-wager-style">Bold</div>
+            <div class="stat-label">Wager Style</div>
+          </div>
+        </div>
+
+        <div class="results-emoji-grid" id="results-emoji-grid"></div>
+
+        <div class="results-badges" id="results-badges" style="display:none">
+          <h3>Badges Earned!</h3>
+          <div class="badges-list" id="badges-earned-list"></div>
+        </div>
+
+        <div class="results-actions">
+          <button class="primary-btn share-btn" id="btn-share">
+            &#128279; Share Results
+          </button>
+          <button class="secondary-btn" id="btn-play-again">Play Again</button>
+          <button class="secondary-btn" id="btn-go-home">Home</button>
+        </div>
+
+        <div class="share-toast" id="share-toast" style="display:none">
+          Copied to clipboard!
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== STATS SCREEN ======================== -->
+    <div id="screen-stats" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="home">&larr;</button>
+        <h2>Your Stats</h2>
+      </div>
+      <div class="stats-content">
+        <div class="stats-overview">
+          <div class="stat-card">
+            <div class="stat-card-value" id="total-score">0</div>
+            <div class="stat-card-label">Total Score</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-value" id="total-games">0</div>
+            <div class="stat-card-label">Games Played</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-value" id="accuracy-pct">0%</div>
+            <div class="stat-card-label">Accuracy</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-value" id="best-chain-ever">0</div>
+            <div class="stat-card-label">Best Chain</div>
+          </div>
+        </div>
+        <div class="stats-section">
+          <h3>Category Strengths</h3>
+          <div class="category-bars" id="category-bars"></div>
+        </div>
+        <div class="stats-section">
+          <h3>Recent Games</h3>
+          <div class="recent-games" id="recent-games"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== BADGES SCREEN ======================== -->
+    <div id="screen-badges" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="home">&larr;</button>
+        <h2>Badges</h2>
+      </div>
+      <div class="badges-grid" id="badges-grid"></div>
+    </div>
+
+    <!-- ======================== SETTINGS SCREEN ======================== -->
+    <div id="screen-settings" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="home">&larr;</button>
+        <h2>Settings</h2>
+      </div>
+      <div class="settings-content">
+        <div class="setting-row">
+          <span>Sound Effects</span>
+          <label class="toggle">
+            <input type="checkbox" id="setting-sound" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span>Animations</span>
+          <label class="toggle">
+            <input type="checkbox" id="setting-animations" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-row danger">
+          <span>Reset All Data</span>
+          <button class="danger-btn" id="btn-reset-data">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== TUTORIAL OVERLAY ======================== -->
+    <div id="tutorial-overlay" class="overlay" style="display:none">
+      <div class="tutorial-card">
+        <div class="tutorial-step" id="tutorial-step">
+          <div class="tutorial-illustration" id="tutorial-illustration"></div>
+          <h3 class="tutorial-title" id="tutorial-title"></h3>
+          <p class="tutorial-text" id="tutorial-text"></p>
+        </div>
+        <div class="tutorial-dots" id="tutorial-dots"></div>
+        <div class="tutorial-actions">
+          <button class="secondary-btn" id="btn-tutorial-skip">Skip</button>
+          <button class="primary-btn" id="btn-tutorial-next">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Particle canvas for effects -->
+    <canvas id="particle-canvas"></canvas>
+
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
